@@ -73,6 +73,10 @@ class BaseViewController: UIViewController {
     func preferredPagingView() -> JXPagingView {
         return JXPagingView(delegate: self)
     }
+    
+    func collectionViewDidEndScroll(_ scrollView: UIScrollView) {
+    
+    }
 
 }
 

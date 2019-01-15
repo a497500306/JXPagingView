@@ -276,6 +276,10 @@ extension JXPagingView: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension JXPagingView: JXPagingListContainerViewDelegate {
+    public func collectionViewDidEndScroll(_ scrollView: UIScrollView) {
+        print("!23")
+    }
+    
     public func numberOfRows(in listContainerView: JXPagingListContainerView) -> Int {
         return self.delegate.numberOfLists(in: self)
     }
