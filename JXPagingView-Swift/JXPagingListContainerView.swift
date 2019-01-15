@@ -15,6 +15,8 @@ import UIKit
     func listContainerView(_ listContainerView: JXPagingListContainerView, viewForListInRow row: Int) -> UIView
 
     func listContainerView(_ listContainerView: JXPagingListContainerView, willDisplayCellAt row: Int)
+    
+    func collectionViewDidEndScroll(_ scrollView: UIScrollView)
 }
 
 @objc public protocol JXPagingListContainerCollectionViewGestureDelegate {
@@ -132,10 +134,25 @@ extension JXPagingListContainerView: UICollectionViewDataSource, UICollectionVie
 
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.mainTableView?.isScrollEnabled = true
+        let scrollToScrollStop: Bool = !scrollView.isTracking && !scrollView.isDragging && !scrollView.isDecelerating
+        if scrollToScrollStop {
+            collectionViewDidEndScroll(scrollView)
+        }
     }
 
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         self.mainTableView?.isScrollEnabled = true
+        if !decelerate {
+            // 停止类型3
+            let dragToDragStop: Bool = scrollView.isTracking && !scrollView.isDragging && !scrollView.isDecelerating
+            if dragToDragStop {
+                collectionViewDidEndScroll(scrollView)
+            }
+        }
+    }
+    
+    public func collectionViewDidEndScroll(_ scrollView: UIScrollView) {
+        self.delegate.collectionViewDidEndScroll(scrollView)
     }
 
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
